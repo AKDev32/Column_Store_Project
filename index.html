@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Column Store - Interactive Database Visualization</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Crimson+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="grain-overlay"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">
+                    <span class="logo-icon">⟦</span>
+                    <span class="logo-text">Column Store</span>
+                    <span class="logo-icon">⟧</span>
+                </h1>
+                <nav class="nav">
+                    <button class="nav-btn active" data-section="visualizer">Visualizer</button>
+                    <button class="nav-btn" data-section="query">Query Engine</button>
+                    <button class="nav-btn" data-section="performance">Performance</button>
+                    <button class="nav-btn" data-section="docs">Documentation</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="hero-title">
+                    <span class="hero-line">High-Performance</span>
+                    <span class="hero-line highlight">Columnar Storage</span>
+                    <span class="hero-line">Database Engine</span>
+                </h2>
+                <p class="hero-subtitle">
+                    Explore the architecture and performance of column-oriented data storage 
+                    through interactive visualizations and real-time query execution
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">10x</div>
+                        <div class="stat-label">Faster Analytics</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">5x</div>
+                        <div class="stat-label">Better Compression</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">3x</div>
+                        <div class="stat-label">Query Optimization</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Visualizer Section -->
+        <section id="visualizer" class="section active">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Storage Architecture Visualizer</h2>
+                    <p class="section-description">
+                        Compare row-based vs column-based storage layouts in real-time
+                    </p>
+                </div>
+
+                <div class="visualizer-grid">
+                    <!-- Row Store -->
+                    <div class="storage-panel">
+                        <div class="panel-header">
+                            <h3 class="panel-title">Row-Oriented Storage</h3>
+                            <span class="panel-badge traditional">Traditional</span>
+                        </div>
+                        <div class="storage-container" id="row-storage">
+                            <div class="storage-info">
+                                <div class="info-item">
+                                    <span class="info-label">Layout:</span>
+                                    <span class="info-value">Sequential Rows</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Best For:</span>
+                                    <span class="info-value">OLTP Workloads</span>
+                                </div>
+                            </div>
+                            <div class="storage-visualization" id="row-viz"></div>
+                        </div>
+                    </div>
+
+                    <!-- Column Store -->
+                    <div class="storage-panel highlight">
+                        <div class="panel-header">
+                            <h3 class="panel-title">Column-Oriented Storage</h3>
+                            <span class="panel-badge optimized">Optimized</span>
+                        </div>
+                        <div class="storage-container" id="column-storage">
+                            <div class="storage-info">
+                                <div class="info-item">
+                                    <span class="info-label">Layout:</span>
+                                    <span class="info-value">Columnar Blocks</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Best For:</span>
+                                    <span class="info-value">OLAP Analytics</span>
+                                </div>
+                            </div>
+                            <div class="storage-visualization" id="column-viz"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Controls -->
+                <div class="controls-panel">
+                    <h3 class="controls-title">Sample Dataset</h3>
+                    <div class="controls-grid">
+                        <button class="control-btn" id="load-small">Small (100 rows)</button>
+                        <button class="control-btn active" id="load-medium">Medium (1K rows)</button>
+                        <button class="control-btn" id="load-large">Large (10K rows)</button>
+                        <button class="control-btn secondary" id="generate-custom">Custom Dataset</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Query Engine Section -->
+        <section id="query" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Interactive Query Engine</h2>
+                    <p class="section-description">
+                        Execute SQL queries and visualize the execution plan
+                    </p>
+                </div>
+
+                <div class="query-workspace">
+                    <!-- Query Editor -->
+                    <div class="editor-panel">
+                        <div class="editor-header">
+                            <span class="editor-title">SQL Query Editor</span>
+                            <div class="editor-actions">
+                                <button class="icon-btn" id="format-sql" title="Format SQL">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M3 3h10M3 8h10M3 13h10" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn" id="clear-sql" title="Clear">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <textarea 
+                            class="sql-editor" 
+                            id="sql-input" 
+                            placeholder="Enter your SQL query...
+                            
+Example:
+SELECT name, salary, department 
+FROM employees 
+WHERE salary > 50000 
+ORDER BY salary DESC 
+LIMIT 10;"
+                        ></textarea>
+                        <div class="editor-footer">
+                            <button class="primary-btn" id="execute-query">
+                                <span>Execute Query</span>
+                                <span class="btn-icon">→</span>
+                            </button>
+                            <div class="query-examples">
+                                <span class="examples-label">Examples:</span>
+                                <button class="example-btn" data-query="select">SELECT</button>
+                                <button class="example-btn" data-query="aggregate">Aggregates</button>
+                                <button class="example-btn" data-query="join">JOIN</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Panel -->
+                    <div class="results-panel">
+                        <div class="results-header">
+                            <div class="tabs">
+                                <button class="tab active" data-tab="results">Results</button>
+                                <button class="tab" data-tab="execution">Execution Plan</button>
+                                <button class="tab" data-tab="metrics">Metrics</button>
+                            </div>
+                            <div class="results-meta" id="query-meta"></div>
+                        </div>
+                        <div class="results-content">
+                            <div class="tab-content active" id="results-tab">
+                                <div class="empty-state">
+                                    <div class="empty-icon">⚡</div>
+                                    <p>Execute a query to see results</p>
+                                </div>
+                                <div class="results-table-wrapper" id="results-container"></div>
+                            </div>
+                            <div class="tab-content" id="execution-tab">
+                                <div class="execution-plan" id="execution-plan"></div>
+                            </div>
+                            <div class="tab-content" id="metrics-tab">
+                                <div class="metrics-grid" id="metrics-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Section -->
+        <section id="performance" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Performance Benchmarks</h2>
+                    <p class="section-description">
+                        Real-time performance comparison across different workloads
+                    </p>
+                </div>
+
+                <div class="benchmark-grid">
+                    <div class="chart-panel">
+                        <h3 class="chart-title">Query Execution Time</h3>
+                        <canvas id="execution-chart"></canvas>
+                    </div>
+                    <div class="chart-panel">
+                        <h3 class="chart-title">Compression Ratio</h3>
+                        <canvas id="compression-chart"></canvas>
+                    </div>
+                    <div class="chart-panel">
+                        <h3 class="chart-title">Memory Usage</h3>
+                        <canvas id="memory-chart"></canvas>
+                    </div>
+                    <div class="chart-panel">
+                        <h3 class="chart-title">I/O Operations</h3>
+                        <canvas id="io-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentation Section -->
+        <section id="docs" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Technical Documentation</h2>
+                </div>
+
+                <div class="docs-layout">
+                    <aside class="docs-sidebar">
+                        <nav class="docs-nav">
+                            <a href="#architecture" class="docs-link active">Architecture</a>
+                            <a href="#implementation" class="docs-link">Implementation</a>
+                            <a href="#query-processing" class="docs-link">Query Processing</a>
+                            <a href="#optimization" class="docs-link">Optimization</a>
+                            <a href="#api" class="docs-link">API Reference</a>
+                        </nav>
+                    </aside>
+                    <article class="docs-content">
+                        <div id="architecture" class="docs-section">
+                            <h3>Architecture Overview</h3>
+                            <p>Column Store implements a high-performance columnar storage engine optimized for analytical workloads. The architecture separates data by columns rather than rows, enabling superior compression and query performance for OLAP scenarios.</p>
+                            
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-lang">JavaScript</span>
+                                    <button class="copy-btn">Copy</button>
+                                </div>
+                                <pre><code>class ColumnStore {
+  constructor() {
+    this.columns = new Map();
+    this.metadata = new Map();
+    this.indexes = new Map();
+  }
+
+  addColumn(name, type, compression) {
+    this.columns.set(name, {
+      data: [],
+      type,
+      compression,
+      encoding: this.selectEncoding(type)
+    });
+  }
+
+  insert(record) {
+    for (let [key, value] of Object.entries(record)) {
+      this.columns.get(key).data.push(value);
+    }
+  }
+}</code></pre>
+                            </div>
+
+                            <h4>Key Components</h4>
+                            <ul>
+                                <li><strong>Column Manager:</strong> Handles column-level storage and retrieval</li>
+                                <li><strong>Compression Engine:</strong> Implements dictionary, RLE, and bit-packing</li>
+                                <li><strong>Query Executor:</strong> Optimizes and executes analytical queries</li>
+                                <li><strong>Aggregation Pipeline:</strong> Efficient GROUP BY and aggregate functions</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Column Store Database</h4>
+                    <p>A modern columnar storage engine built with JavaScript</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Technology Stack</h4>
+                    <ul>
+                        <li>Vanilla JavaScript (ES6+)</li>
+                        <li>Canvas API for Visualizations</li>
+                        <li>IndexedDB for StoragSe</li>
+                        <li>Web Workers for Processing</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Features</h4>
+                    <ul>
+                        <li>Real-time Query Execution</li>
+                        <li>Interactive Visualizations</li>
+                        <li>Performance Benchmarks</li>
+                        <li>Compression Algorithms</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Column Store Project. Built for demonstration and education.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/columnStore.js"></script>
+    <script src="js/queryEngine.js"></script>
+    <script src="js/visualizer.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
