@@ -351,6 +351,3 @@ Inspired by modern columnar databases:
 
 ---
 
-**Built with ❤️ and JavaScript**
-
-*Ready to impress recruiters at big tech companies!* 🚀
